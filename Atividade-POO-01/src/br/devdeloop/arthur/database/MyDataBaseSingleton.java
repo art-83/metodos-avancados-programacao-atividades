@@ -3,13 +3,22 @@ package br.devdeloop.arthur.database;
 import br.devdeloop.arthur.repositories.ProfessorRepository;
 import br.devdeloop.arthur.repositories.StudentRepository;
 
-public class MyDataBase {
+public class MyDataBaseSingleton {
+    private static MyDataBaseSingleton instance;
+
     private ProfessorRepository professorRepository;
     private StudentRepository studentRepository;
 
-    public MyDataBase() {
+    public MyDataBaseSingleton() {
         this.professorRepository = new ProfessorRepository();
         this.studentRepository = new StudentRepository();
+    }
+
+    public static MyDataBaseSingleton getInstance() {
+        if(instance == null) {
+            return new MyDataBaseSingleton();
+        }
+        return instance;
     }
 
     public ProfessorRepository getProfessorRepository() {

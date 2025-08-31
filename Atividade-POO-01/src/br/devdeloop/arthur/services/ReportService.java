@@ -1,6 +1,6 @@
 package br.devdeloop.arthur.services;
 
-import br.devdeloop.arthur.database.MyDataBase;
+import br.devdeloop.arthur.database.MyDataBaseSingleton;
 import br.devdeloop.arthur.models.entities.Professor;
 import br.devdeloop.arthur.models.entities.Student;
 import br.devdeloop.arthur.models.entities.Test;
@@ -11,22 +11,22 @@ import java.util.List;
 import java.util.Map;
 
 public class ReportService {
-    private MyDataBase myDataBase;
+    private MyDataBaseSingleton myDataBaseSingleton;
 
-    public ReportService(MyDataBase myDataBase) {
-        this.myDataBase = myDataBase;
+    public ReportService(MyDataBaseSingleton myDataBaseSingleton) {
+        this.myDataBaseSingleton = myDataBaseSingleton;
     }
 
     public Map<String, Student> getStudentList() {
-        return this.myDataBase.getStudentRepository().findAll();
+        return this.myDataBaseSingleton.getStudentRepository().findAll();
     }
 
     public List<Test> getStudentTestResumeById(String id) {
-        return this.myDataBase.getStudentRepository().findById(id).getTest();
+        return this.myDataBaseSingleton.getStudentRepository().findById(id).getTest();
     }
 
     public BigDecimal getStudentTestScoreResumeByIdAndClass(String id, UniversityClass universityClass) {
-        Student student = this.myDataBase.getStudentRepository().findById(id);
+        Student student = this.myDataBaseSingleton.getStudentRepository().findById(id);
         BigDecimal result = new BigDecimal(0);
         for(Test t : student.getTest()) {
             if(t.getUniversityClass().equals(universityClass)) {
@@ -37,15 +37,15 @@ public class ReportService {
     }
 
     public Integer getStudentsQuantityByUniversityClass(UniversityClass universityClasses) {
-        return this.myDataBase.getStudentRepository().findByUniversityClass(universityClasses).size();
+        return this.myDataBaseSingleton.getStudentRepository().findByUniversityClass(universityClasses).size();
     }
 
     public Map<String, Professor> getProfessorList() {
-        return this.myDataBase.getProfessorRepository().findAll();
+        return this.myDataBaseSingleton.getProfessorRepository().findAll();
     }
 
     public Map<String, Professor> getProfessorByUniversityClass(UniversityClass universityClass) {
-        return this.myDataBase.getProfessorRepository().findByUniversityClass(universityClass);
+        return this.myDataBaseSingleton.getProfessorRepository().findByUniversityClass(universityClass);
     }
 
 }
